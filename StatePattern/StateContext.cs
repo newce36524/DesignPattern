@@ -9,6 +9,7 @@ namespace StatePattern
         public StateBase StateBase { get; set; }
         public void NextState()
         {
+            //把自身的属性交给别的类来修改
             StateBase.ToggleState(this);
         }
 

@@ -14,6 +14,8 @@ using ProxyPattern;
 using VisitorPattern;
 using VisitorPattern.Visitor;
 using ResponsibilityChainPattern;
+using BridgePattern.Server;
+using BridgePattern.Service;
 
 namespace PatternConsole
 {
@@ -41,7 +43,8 @@ namespace PatternConsole
             ShowProxyPattern();//代理模式
             Console.WriteLine("==============责任链模式================");
             ShowResPonsibilityChainPattern();//责任链模式
-
+            Console.WriteLine("===============桥接模式=================");
+            ShowBridgePattern();//桥接模式
             Console.ReadLine();
         }
 
@@ -189,6 +192,51 @@ namespace PatternConsole
             stepOne.SetNextStep(stepTwo);
             stepTwo.SetNextStep(stepThree);
             stepOne.InvokeHandle(new StepContext() { Number = num });
+        }
+
+        static void ShowBridgePattern()
+        {
+            ISevice uploadSevice = new UploadSevice()
+            {
+                Vision = "1.1"
+            };
+            ISevice cacheSevice = new CacheSevice()
+            {
+                Vision = "1.2"
+            };
+            ISevice downloadSevice = new DownloadSevice()
+            {
+                Vision = "1.0"
+            };
+            ISevice sourceSevice = new SourceSevice()
+            {
+                Vision = "2.1"
+            };
+            ISevice transpondSevice = new TranspondSevice()
+            {
+                Vision = "1.3"
+            };
+            CommomServer commomServer = new CommomServer();
+            {
+                commomServer.Service = uploadSevice;
+                commomServer.Call();
+            }
+            {
+                commomServer.Service = cacheSevice;
+                commomServer.Call();
+            }
+            {
+                commomServer.Service = downloadSevice;
+                commomServer.Call();
+            }
+            {
+                commomServer.Service = sourceSevice;
+                commomServer.Call();
+            }
+            {
+                commomServer.Service = transpondSevice;
+                commomServer.Call();
+            }
         }
     }
 }
